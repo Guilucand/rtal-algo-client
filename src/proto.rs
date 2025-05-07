@@ -44,6 +44,7 @@ pub enum Reply {
     ConnectNewSubtask { status: Result<Vec<String>, String> },
     CreatedToken { token: String },
     IsTokenValid { valid: bool },
+    Error { message: String },
 }
 
 #[allow(dead_code)]

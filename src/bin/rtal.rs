@@ -510,6 +510,9 @@ where
                         Ok(Reply::ConnectNewSubtask { status: _ }) => {
                             break Ok(RunResult::Restart);
                         }
+                        Ok(Reply::Error { message }) => {
+                            break Err(message);
+                        }
                         Ok(_) => break Err(format!("Received wrong message from server")),
                         Err(x) => break Err(format!("Cannot parse server reply: {}", x)),
                     }
