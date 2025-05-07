@@ -109,10 +109,22 @@ where
 
     let matricola = urlencoding::encode(matricola);
     let url_token = urlencoding::encode(&token);
+    let websocket_parsed_url: Uri = websocket_url
+        .parse()
+        .map_err(|e| format!("Invalid websocket URL: {}", e))?;
     let websocket_url = urlencoding::encode(&websocket_url);
     let uri = Uri::builder()
-        .scheme("https")
-        .authority("ta.di.univr.it")
+        .scheme(match websocket_parsed_url.scheme_str() {
+            Some("ws") => "http",
+            Some("wss") => "https",
+            _ => "https",
+        })
+        .authority(
+            websocket_parsed_url
+                .authority()
+                .map(|a| a.to_string())
+                .unwrap_or("ta.di.univr.it".to_string()),
+        )
         .path_and_query(format!(
             "/?matricola={}&authKey={}&rtalWebSocket={}",
             matricola, url_token, websocket_url
