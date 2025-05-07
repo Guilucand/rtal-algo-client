@@ -514,7 +514,7 @@ where
                             break Err(message);
                         }
                         Ok(_) => break Err(format!("Received wrong message from server")),
-                        Err(x) => break Err(format!("Cannot parse server reply: {}", x)),
+                        Err(x) => break Err(format!("Cannot parse server reply: {}\nYou can probably solve this problem by downloading the latest version of rtal.", x)),
                     }
                     Some(Ok(_)) => continue,
                     Some(Err(x)) => break Err(format!("Connection lost: {}", x)),
